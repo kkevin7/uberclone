@@ -45,13 +45,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="@color/light_blue"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/light_blue"
                 android:text="SOY CONDUCTOR"
                 android:textColor="@color/white" />
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/white"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="SOY CLIENTE"
