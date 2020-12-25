@@ -22,7 +22,6 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/icon_uberclone"
-            android:layout_marginTop="50dp"
             android:layout_gravity="center"
             />
         <TextView
