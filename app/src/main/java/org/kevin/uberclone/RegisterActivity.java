@@ -2,6 +2,7 @@ package org.kevin.uberclone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     DatabaseReference mDatabase;
     AlertDialog mDialog;
     ImageView imgRegister;
+    Toolbar mToolbar;
 
     //Views
     Button mButtonRegister;
@@ -41,6 +43,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        //Toolbar
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -80,7 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            saveUser(name, email);
+                            String id = mAuth.getCurrentUser().getUid();
+                            saveUser(id, name, email);
                         }else{
                             Toast.makeText(RegisterActivity.this, "No se pudo registrar el usuario", Toast.LENGTH_SHORT).show();
                             mDialog.dismiss();
@@ -96,34 +104,34 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void saveUser(String name, String email) {
+    private void saveUser(String id, String name, String email) {
         String selectedUser = mPref.getString("user", "");
         User user = new User();
         user.setName(name);
         user.setEmail(email);
 
         if(selectedUser.equals("driver")){
-            mDatabase.child("Users").child("Drivers").push().setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            mDatabase.child("Users").child("Drivers").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
+                    mDialog.dismiss();
                     if(task.isSuccessful()){
                         Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(RegisterActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
                     }
-                    mDialog.dismiss();
                 }
             });
         }else{
-            mDatabase.child("Users").child("Clients").push().setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            mDatabase.child("Users").child("Clients").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
+                    mDialog.dismiss();
                     if(task.isSuccessful()){
                         Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(RegisterActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
                     }
-                    mDialog.dismiss();
                 }
             });
         }

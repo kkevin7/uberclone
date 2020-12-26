@@ -12,13 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UberClone"
         >
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+            android:parentActivityName=".SelectOptionAuthActivity"
+            />
         <activity
             android:name=".SelectOptionAuthActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".LoginActivity"
-            android:parentActivityName=".SelectOptionAuthActivity" />
+            android:parentActivityName=".SelectOptionAuthActivity"
+            />
 
         <activity android:name=".MainActivity">
             <intent-filter>
