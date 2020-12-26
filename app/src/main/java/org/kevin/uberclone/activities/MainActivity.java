@@ -1,4 +1,4 @@
-package org.kevin.uberclone;
+package org.kevin.uberclone.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import org.kevin.uberclone.R;
 
 public class MainActivity extends AppCompatActivity {
 

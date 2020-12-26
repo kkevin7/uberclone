@@ -4,13 +4,17 @@ public class Driver {
     String id;
     String name;
     String email;
+    String vehicleBrand;
+    String vehiclePlate;
 
     public Driver(){}
 
-    public Driver(String id, String name, String email) {
+    public Driver(String id, String name, String email, String vehicleBrand, String vehiclePlate) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.vehicleBrand = vehicleBrand;
+        this.vehiclePlate = vehiclePlate;
     }
 
     public String getId() {
@@ -35,5 +39,21 @@ public class Driver {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getVehicleBrand() {
+        return vehicleBrand;
+    }
+
+    public void setVehicleBrand(String vehicleBrand) {
+        this.vehicleBrand = vehicleBrand;
+    }
+
+    public String getVehiclePlate() {
+        return vehiclePlate;
+    }
+
+    public void setVehiclePlate(String vehiclePlate) {
+        this.vehiclePlate = vehiclePlate;
     }
 }

@@ -1,4 +1,4 @@
-package org.kevin.uberclone;
+package org.kevin.uberclone.activities.client;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+import org.kevin.uberclone.R;
 import org.kevin.uberclone.includes.MyToolbar;
 import org.kevin.uberclone.models.Client;
-import org.kevin.uberclone.models.User;
 import org.kevin.uberclone.providers.AuthProvider;
 import org.kevin.uberclone.providers.ClientProvider;
 
@@ -48,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        MyToolbar.show(this, "Login", true);
+        MyToolbar.show(this, "Register", true);
 
         mAuthProvider = new AuthProvider();
         mClientProvider = new ClientProvider();

@@ -1,11 +1,10 @@
-package org.kevin.uberclone;
+package org.kevin.uberclone.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.kevin.uberclone.R;
 import org.kevin.uberclone.includes.MyToolbar;
 
 import dmax.dialog.SpotsDialog;
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //Toolbar
-        MyToolbar.show(this, "Register", true);
+        MyToolbar.show(this, "Login", true);
 
         //Intances Variables
         mTextInputEmail = findViewById(R.id.textInputEmail);
