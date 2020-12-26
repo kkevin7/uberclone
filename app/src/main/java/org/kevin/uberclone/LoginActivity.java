@@ -2,8 +2,10 @@ package org.kevin.uberclone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,24 +23,31 @@ import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputEditText mTextInputEmail;
-    TextInputEditText mTextInputPassword;
-    Button mButtonLogin;
-
+    //Firebase
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
 
+    Toolbar mToolbar;
+    TextInputEditText mTextInputEmail;
+    TextInputEditText mTextInputPassword;
+    Button mButtonLogin;
     AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //Toolbar
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Intances Variables
         mTextInputEmail = findViewById(R.id.textInputEmail);
         mTextInputPassword = findViewById(R.id.textInputPassword);
         mButtonLogin = findViewById(R.id.btnLogin);
+
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
