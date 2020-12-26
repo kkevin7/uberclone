@@ -21,20 +21,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.kevin.uberclone.includes.MyToolbar;
+import org.kevin.uberclone.models.Client;
 import org.kevin.uberclone.models.User;
+import org.kevin.uberclone.providers.AuthProvider;
+import org.kevin.uberclone.providers.ClientProvider;
 
 import dmax.dialog.SpotsDialog;
 
 public class RegisterActivity extends AppCompatActivity {
 
     SharedPreferences mPref;
-    FirebaseAuth mAuth;
-    DatabaseReference mDatabase;
-    AlertDialog mDialog;
-    ImageView imgRegister;
-    Toolbar mToolbar;
+
+    AuthProvider mAuthProvider;
+    ClientProvider mClientProvider;
 
     //Views
+    Toolbar mToolbar;
+    AlertDialog mDialog;
+    ImageView imgRegister;
     Button mButtonRegister;
     TextInputEditText mTextInputEmail;
     TextInputEditText mTextInputName;
@@ -46,9 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         MyToolbar.show(this, "Login", true);
 
-        //Firebase
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuthProvider = new AuthProvider();
+        mClientProvider = new ClientProvider();
 
         mPref = getApplicationContext().getSharedPreferences("typeUser", MODE_PRIVATE);
         String selectedUser = mPref.getString("user", "");
@@ -67,12 +70,12 @@ public class RegisterActivity extends AppCompatActivity {
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerUser();
+                clickRegister();
             }
         });
     }
 
-    private void registerUser() {
+    private void clickRegister() {
         final String name = mTextInputName.getText().toString();
         final String email = mTextInputEmail.getText().toString();
         final String password = mTextInputPassword.getText().toString();
@@ -80,57 +83,44 @@ public class RegisterActivity extends AppCompatActivity {
         if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
             if(password.length() >= 6){
                 mDialog.show();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            String id = mAuth.getCurrentUser().getUid();
-                            saveUser(id, name, email);
-                        }else{
-                            Toast.makeText(RegisterActivity.this, "No se pudo registrar el usuario", Toast.LENGTH_SHORT).show();
-                            mDialog.dismiss();
-                        }
-                    }
-                });
+                register(name, email, password);
             }else{
                 Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
             }
         }else{
             Toast.makeText(this, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
         }
-
     }
 
-    private void saveUser(String id, String name, String email) {
-        String selectedUser = mPref.getString("user", "");
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-
-        if(selectedUser.equals("driver")){
-            mDatabase.child("Users").child("Drivers").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
+    void register(String name, String email, String password){
+        mAuthProvider.register(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    Client client = new Client(id, name, email);
+                    create(client);
+                }else{
+                    Toast.makeText(RegisterActivity.this, "No se pudo registrar el usuario", Toast.LENGTH_SHORT).show();
                     mDialog.dismiss();
-                    if(task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(RegisterActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
-                    }
                 }
-            });
-        }else{
-            mDatabase.child("Users").child("Clients").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    mDialog.dismiss();
-                    if(task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(RegisterActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
+            }
+        });
     }
+
+    void create(Client client){
+        mClientProvider.create(client).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mDialog.dismiss();
+                if(task.isSuccessful()){
+                    Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(RegisterActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
 }
