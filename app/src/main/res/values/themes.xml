@@ -16,8 +16,8 @@
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="titleTextColor">@color/white</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="titleTextColor">@color/black</item>
     </style>
 
 </resources>
