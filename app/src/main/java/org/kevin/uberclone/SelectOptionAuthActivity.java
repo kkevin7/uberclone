@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.kevin.uberclone.includes.MyToolbar;
+
 public class SelectOptionAuthActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
@@ -19,10 +21,7 @@ public class SelectOptionAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_option_auth);
         //Toolbar
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Seleccionar opción");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        MyToolbar.show(this, "Seleccionar Opción", true);
 
         mButtonGoToLogin = findViewById(R.id.btnGoToLogin);
         mButtonGoToLogin.setOnClickListener(new View.OnClickListener() {
