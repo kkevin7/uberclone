@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -109,7 +110,10 @@ public class RegisterDriverActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 mDialog.dismiss();
                 if(task.isSuccessful()){
-                    Toast.makeText(RegisterDriverActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegisterDriverActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterDriverActivity.this, MapDriverActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(RegisterDriverActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
                 }

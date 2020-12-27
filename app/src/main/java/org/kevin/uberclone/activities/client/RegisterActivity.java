@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.kevin.uberclone.R;
+import org.kevin.uberclone.activities.driver.MapDriverActivity;
+import org.kevin.uberclone.activities.driver.RegisterDriverActivity;
 import org.kevin.uberclone.includes.MyToolbar;
 import org.kevin.uberclone.models.Client;
 import org.kevin.uberclone.providers.AuthProvider;
@@ -112,7 +115,10 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 mDialog.dismiss();
                 if(task.isSuccessful()){
-                    Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, MapClientActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(RegisterActivity.this, "No se pudo registrar al usuario", Toast.LENGTH_SHORT).show();
                 }
